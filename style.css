@@ -57,12 +57,28 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     border-radius: 10px;
     box-shadow: 0px 2px 5px #9f8b63;
+    text-transform: capitalize;
+    transition: all 0.5s linear;
+}
+
+.book .author {
+    font-size: 1.3rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0.3rem;
+    color: #464646;
+}
+
+.book .pages {
+    color: #464646;
+    font-size: 1.1rem;
 }
 
 .book.read {
-    background-color: #d1f1d5;
+    background: #c1ffcb;
 }
 
 .book button,
@@ -81,6 +97,7 @@ input[type="submit"] {
     border-color: #35a8ce;
     margin-top: 1.5rem;
     margin-bottom: 0.4rem;
+    border-radius: 10px;
 }
 
 .book button.read:hover,
@@ -91,6 +108,7 @@ input[type="submit"]:hover {
 .book button.delete {
     background-color: #ffd2d2;
     border-color: #d46d6d;
+    border-radius: 10px;
 }
 
 .book button.delete:hover {
@@ -98,13 +116,24 @@ input[type="submit"]:hover {
 }
 
 .form-background {
-    background-color: rgba(0, 0, 0, 0.336);
+    background: transparent;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
     display: none;
+    transition: all 0.5s ease-out;
+}
+
+.form.visible .form-background {
+    display: block;
+    background: #00000056;
+}
+
+.form.visible .form-box {
+    display: block;
+    transform: translateY(0);
 }
 
 .form-box {
@@ -114,13 +143,14 @@ input[type="submit"]:hover {
     left: 0;
     right: 0;
     background-color: white;
-    height: fit-content;
     width: fit-content;
-    padding: 2rem;
+    height: fit-content;
     margin: auto;
     border-radius: 10px;
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.564);
-    display: none;
+    padding: 2rem;
+    transform: translateY(-150%);
+    transition: all 0.5s ease-out;
 }
 
 .form-box h1 {
