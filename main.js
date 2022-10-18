@@ -1,47 +1,45 @@
 const addBookBtn = document.querySelector(".add-book");
 const booksContainer = document.querySelector(".books");
-const formBackground = document.querySelector(".form-background");
-const formContainer = document.querySelector(".form");
+const modalBackground = document.querySelector(".modal-background");
+const modalContainer = document.querySelector(".modal");
 const form = document.querySelector("form");
 
-const title = document.querySelector("form #title");
-const author = document.querySelector("form #author");
-const pages = document.querySelector("form #pages");
+const inputTitle = document.querySelector("form #title");
+const inputAuthor = document.querySelector("form #author");
+const inputPages = document.querySelector("form #pages");
 
-let allBooks = [];
+let allBooksLibrary = [];
 
-let bookMold;
+let bookMoldToCopy;
 window.addEventListener("DOMContentLoaded", () => {
-    bookMold = document.querySelector(".book").cloneNode(true);
-    clear();
+    bookMoldToCopy = document.querySelector(".book").cloneNode(true);
+    updateBooksContainer();
 });
 
 addBookBtn.addEventListener("click", () => {
-    formContainer.classList.add("visible");
+    modalContainer.classList.add("visible");
 });
 
-formBackground.addEventListener("click", () => {
-    clearForm();
+modalBackground.addEventListener("click", () => {
+    clearAndHideForm();
 });
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     addBookToLibrary();
-    clearForm();
-    updateBooks();
 });
 
-function clear() {
+function clearBooksContainer() {
     while (booksContainer.firstChild) {
         booksContainer.removeChild(booksContainer.lastChild);
     }
 }
 
-function clearForm(inputs = [title, author, pages]) {
+function clearAndHideForm(inputs = [inputTitle, inputAuthor, inputPages]) {
     inputs.forEach((input) => {
         input.value = "";
     });
-    formContainer.classList.remove("visible");
+    modalContainer.classList.remove("visible");
 }
 
 function addBookToLibrary() {
@@ -52,41 +50,61 @@ function addBookToLibrary() {
         this.read = false;
     }
 
-    const newBook = new book(title.value, author.value, pages.value);
-    allBooks.push(newBook);
+    const newBook = new book(
+        inputTitle.value,
+        inputAuthor.value,
+        inputPages.value
+    );
+    allBooksLibrary.push(newBook);
+    clearAndHideForm();
+    updateBooksContainer();
 }
 
-function updateBooks() {
-    clear();
-    allBooks.forEach((book, index) => {
-        book.index = index;
-        newBook = bookMold.cloneNode(true);
-        if (book.read) {
-            newBook.classList.add("read");
+function updateBooksContainer() {
+    clearBooksContainer();
+    allBooksLibrary.forEach((book, index) => {
+        createNewBookNode(book, index);
+    });
+}
+
+function createNewBookNode(book, index) {
+    newBook = bookMoldToCopy.cloneNode(true);
+
+    addElementsToBook(newBook, book, index);
+    addEventsToBook(newBook, book);
+
+    booksContainer.appendChild(newBook);
+}
+
+function addElementsToBook(newBook, book, index) {
+    book.index = index;
+    if (book.read) {
+        newBook.classList.add("read");
+    }
+    newBook.querySelector(".title").textContent = `"${book.title}"`;
+    newBook.querySelector(".author").textContent = `-${book.author}`;
+    newBook.querySelector(".pages").textContent = `${book.pages} pages`;
+}
+
+function addEventsToBook(newBook, book) {
+    newBook.querySelector(".read").addEventListener("click", (e) => {
+        let bookNode = e.target.parentNode;
+        if (bookNode.className.includes("read")) {
+            e.target.textContent = "Mark as read";
+            bookNode.classList.remove("read");
+            book.read = false;
+        } else {
+            e.target.textContent = "Umark as read";
+            bookNode.classList.add("read");
+            book.read = true;
         }
-        newBook.querySelector(".title").textContent = `"${book.title}"`;
-        newBook.querySelector(".author").textContent = `-${book.author}`;
-        newBook.querySelector(".pages").textContent = `${book.pages} pages`;
-        newBook.querySelector(".read").addEventListener("click", (e) => {
-            let bookNode = e.target.parentNode;
-            if (bookNode.className.includes("read")) {
-                e.target.textContent = "Mark as read";
-                bookNode.classList.remove("read");
-                book.read = false;
-            } else {
-                e.target.textContent = "Umark as read";
-                bookNode.classList.add("read");
-                book.read = true;
-            }
-        });
-        newBook.querySelector(".delete").addEventListener("click", (e) => {
-            deleteBookFromLibrary(book.index);
-        });
-        booksContainer.appendChild(newBook);
+    });
+    newBook.querySelector(".delete").addEventListener("click", () => {
+        deleteBookFromLibrary(book.index);
     });
 }
 
 function deleteBookFromLibrary(bookIndex) {
-    allBooks.splice(bookIndex, 1);
-    updateBooks();
+    allBooksLibrary.splice(bookIndex, 1);
+    updateBooksContainer();
 }

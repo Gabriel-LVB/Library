@@ -115,7 +115,7 @@ input[type="submit"]:hover {
     background-color: #d46d6d;
 }
 
-.form-background {
+.modal-background {
     background: transparent;
     position: fixed;
     left: 0;
@@ -126,17 +126,17 @@ input[type="submit"]:hover {
     transition: all 0.5s ease-out;
 }
 
-.form.visible .form-background {
+.modal.visible .modal-background {
     display: block;
     background: #00000056;
 }
 
-.form.visible .form-box {
+.modal.visible .modal-box {
     display: block;
     transform: translateY(0);
 }
 
-.form-box {
+.modal-box {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -153,7 +153,7 @@ input[type="submit"]:hover {
     transition: all 0.5s ease-out;
 }
 
-.form-box h1 {
+.modal-box h1 {
     margin-bottom: 1rem;
     font-size: 1.8rem;
     text-align: center;
