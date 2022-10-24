@@ -1,3 +1,3 @@
 # Library
 
-simple library project from The Odin Project
+simple library project to The Odin Project
