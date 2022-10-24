@@ -43,14 +43,16 @@ function clearAndHideForm(inputs = [inputTitle, inputAuthor, inputPages]) {
 }
 
 function addBookToLibrary() {
-    function book(title, author, pages) {
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.read = false;
+    class Book {
+        constructor(title, author, pages) {
+            this.title = title;
+            this.author = author;
+            this.pages = pages;
+            this.read = false;
+        }
     }
 
-    const newBook = new book(
+    const newBook = new Book(
         inputTitle.value,
         inputAuthor.value,
         inputPages.value
