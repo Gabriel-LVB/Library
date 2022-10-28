@@ -7,6 +7,29 @@ const form = document.querySelector("form");
 const inputTitle = document.querySelector("form #title");
 const inputAuthor = document.querySelector("form #author");
 const inputPages = document.querySelector("form #pages");
+const inputs = [inputAuthor, inputPages, inputTitle];
+
+inputs.forEach((input) => {
+    input.addEventListener("input", () => {
+        input.setCustomValidity("");
+        input.checkValidity();
+    });
+    input.addEventListener("invalid", () => {
+        if (input.validity.rangeUnderflow) {
+            input.setCustomValidity(
+                "The number of book's pages must be over 0"
+            );
+        } else if (input.validity.valueMissing) {
+            input.setCustomValidity(
+                input === inputTitle
+                    ? "Please insert the book's title"
+                    : input === inputAuthor
+                    ? "Please insert the book's author name"
+                    : "Please insert the book's number of pages"
+            );
+        }
+    });
+});
 
 let allBooksLibrary = [];
 
